@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string>
+
+class Fighter {
+public:
+    std::string name;
+    int health;
+
+    Fighter(const std::string& n, int h) : name(n), health(h) {}
+
+    void punch(Fighter& opponent) {
+        std::cout << name << " punches " << opponent.name << std::endl;
+        opponent.takeDamage(10);
+    }
+
+    void takeDamage(int damage) {
+        health -= damage;
+        std::cout << name << " takes " << damage << " damage. Remaining health: " << health << std::endl;
+    }
+
+    bool isAlive() const {
+        return health > 0;
+    }
+};
+
+int main() {
+    Fighter player1("Sub-Zero", 100);
+    Fighter player2("Scorpion", 100);
+
+    while (player1.isAlive() && player2.isAlive()) {
+        player1.punch(player2);
+        if (!player2.isAlive()) {
+            std::cout << player1.name << " wins!" << std::endl;
+            break;
+        }
+
+        player2.punch(player1);
+        if (!player1.isAlive()) {
+            std::cout << player2.name << " wins!" << std::endl;
+            break;
+        }
+    }
+
+    return 0;
+}
