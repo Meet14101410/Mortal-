@@ -1,0 +1,56 @@
+import java.util.Scanner;
+
+class Fighter {
+    String name;
+    int health;
+
+    public Fighter(String name, int health) {
+        this.name = name;
+        this.health = health;
+    }
+
+    public void punch(Fighter opponent) {
+        System.out.println(name + " punches " + opponent.name);
+        opponent.takeDamage(10);
+    }
+
+    public void takeDamage(int damage) {
+        health -= damage;
+        System.out.println(name + " takes " + damage + " damage. Remaining health: " + health);
+    }
+
+    public boolean isAlive() {
+        return health > 0;
+    }
+}
+
+public class MortalKombat {
+    public static void main(String[] args) {
+        Fighter player1 = new Fighter("Sub-Zero", 100);
+        Fighter player2 = new Fighter("Scorpion", 100);
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (player1.isAlive() && player2.isAlive()) {
+            System.out.println("Press Enter to let " + player1.name + " punch " + player2.name);
+            scanner.nextLine();
+            player1.punch(player2);
+
+            if (!player2.isAlive()) {
+                System.out.println(player1.name + " wins!");
+                break;
+            }
+
+            System.out.println("Press Enter to let " + player2.name + " punch " + player1.name);
+            scanner.nextLine();
+            player2.punch(player1);
+
+            if (!player1.isAlive()) {
+                System.out.println(player2.name + " wins!");
+                break;
+            }
+        }
+
+        scanner.close();
+    }
+}
